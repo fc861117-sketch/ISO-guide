@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>消防安全官 (ISO) 戰術指揮與教育訓練儀表板</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            slate: {
+              950: '#090d16',
+              900: '#0f1524'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- FontAwesome Icon CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Styling Link -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen flex flex-col md:flex-row bg-[#090d16]">
+
+  <!-- Mobile sticky bottom navigation bar (App-like feel) -->
+  <div class="md:hidden fixed bottom-0 left-0 right-0 bg-[#0f1524] border-t border-slate-800/80 flex justify-around py-2 z-40">
+    <button class="nav-btn mobile-nav-btn text-orange-500 bottom-nav-active flex flex-col items-center justify-center w-12" data-target="dashboard">
+      <i class="fas fa-chart-line text-base"></i>
+      <span class="text-[9px] mt-0.5 font-semibold leading-none">儀表板</span>
+    </button>
+    <button class="nav-btn mobile-nav-btn text-slate-400 flex flex-col items-center justify-center w-12" data-target="regulations">
+      <i class="fas fa-balance-scale text-base"></i>
+      <span class="text-[9px] mt-0.5 font-semibold leading-none">法規職責</span>
+    </button>
+    <button class="nav-btn mobile-nav-btn text-slate-400 flex flex-col items-center justify-center w-12" data-target="medic">
+      <i class="fas fa-calculator text-base"></i>
+      <span class="text-[9px] mt-0.5 font-semibold leading-none">MEDIC</span>
+    </button>
+    <button class="nav-btn mobile-nav-btn text-slate-400 flex flex-col items-center justify-center w-12" data-target="fireground">
+      <i class="fas fa-eye text-base"></i>
+      <span class="text-[9px] mt-0.5 font-semibold leading-none">煙熱判讀</span>
+    </button>
+    <button class="nav-btn mobile-nav-btn text-slate-400 flex flex-col items-center justify-center w-12" data-target="rehab">
+      <i class="fas fa-heartbeat text-base"></i>
+      <span class="text-[9px] mt-0.5 font-semibold leading-none">後勤</span>
+    </button>
+    <button class="nav-btn mobile-nav-btn text-slate-400 flex flex-col items-center justify-center w-12" data-target="emergency">
+      <i class="fas fa-radiation text-base"></i>
+      <span class="text-[9px] mt-0.5 font-semibold leading-none">應變</span>
+    </button>
+  </div>
+
+  <!-- Desktop Sticky Sidebar Navigation -->
+  <aside class="hidden md:flex w-64 bg-[#0f1524] border-r border-slate-800/80 flex-col z-30">
+    <!-- Brand Title -->
+    <div class="p-5 border-b border-slate-800 flex items-center space-x-3">
+      <div class="w-10 h-10 rounded-lg bg-orange-600 flex items-center justify-center shadow-lg shadow-orange-600/30">
+        <i class="fas fa-fire-extinguisher text-white text-lg"></i>
+      </div>
+      <div>
+        <h1 class="font-bold text-sm tracking-wide text-white leading-tight">ISO 戰術指揮部</h1>
+        <p class="text-[10px] text-orange-500 font-bold uppercase tracking-widest mt-0.5">Incident Safety Officer</p>
+      </div>
+    </div>
+
+    <!-- Nav List -->
+    <nav class="flex-1 p-4 space-y-1.5 overflow-y-auto">
+      <button class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-sm text-slate-400 hover:text-white transition-all font-medium nav-active" data-target="dashboard">
+        <i class="fas fa-chart-line w-5 text-center"></i>
+        <span>控制儀表板</span>
+      </button>
+      <button class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-sm text-slate-400 hover:text-white transition-all font-medium" data-target="regulations">
+        <i class="fas fa-balance-scale w-5 text-center"></i>
+        <span>法規與安全官職責</span>
+      </button>
+      <button class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-sm text-slate-400 hover:text-white transition-all font-medium" data-target="medic">
+        <i class="fas fa-calculator w-5 text-center"></i>
+        <span>MEDIC 與決策工具</span>
+      </button>
+      <button class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-sm text-slate-400 hover:text-white transition-all font-medium" data-target="fireground">
+        <i class="fas fa-eye w-5 text-center"></i>
+        <span>火場風險判讀</span>
+      </button>
+      <button class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-sm text-slate-400 hover:text-white transition-all font-medium" data-target="rehab">
+        <i class="fas fa-heartbeat w-5 text-center"></i>
+        <span>後勤與健康照護</span>
+      </button>
+      <button class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-sm text-slate-400 hover:text-white transition-all font-medium" data-target="emergency">
+        <i class="fas fa-radiation w-5 text-center"></i>
+        <span>緊急應變與化災</span>
+      </button>
+    </nav>
+
+    <!-- Footer Profile -->
+    <div class="p-4 border-t border-slate-800 bg-[#090d16]/50">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs font-bold text-white uppercase">
+          so
+        </div>
+        <div>
+          <p class="text-xs font-semibold text-slate-200">現場安全官專用</p>
+          <p class="text-[10px] text-slate-500">標準作業程序 Ver 1.5</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Wrapper -->
+  <main id="main-content" class="flex-1 flex flex-col min-w-0 pb-20 md:pb-0">
+    
+    <!-- Safety Warning Ticker -->
+    <div class="ticker-wrap w-full">
+      <div id="ticker-container" class="ticker-content"></div>
+    </div>
+
+    <!-- Sections container -->
+    <div class="flex-1 p-4 md:p-6 overflow-y-auto max-w-7xl w-full mx-auto space-y-6">
+
+      <!-- ================= SECTION 1: DASHBOARD ================= -->
+      <section id="dashboard" class="content-section space-y-6">
+        <!-- Hero Banner -->
+        <div class="glass p-5 md:p-6 rounded-2xl relative overflow-hidden border border-slate-800 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div class="space-y-3 z-10 max-w-2xl">
+            <div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-500/10 text-red-400 border border-red-500/20">
+              <span class="w-1.5 h-1.5 rounded-full bg-red-500 mr-2 animate-ping"></span>
+              現場決策輔助
+            </div>
+            <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white leading-tight">
+              災害現場的安全捕手：<br>
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500">從直覺判斷到科學評估</span>
+            </h2>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              安全官 (ISO) 的核心使命：確保所有消防人員在<strong>「可接受的風險」</strong>下執行任務，將傷亡機率降至最低。在此儀表板中，您可以使用量化模型快速得出行動方針。
+            </p>
+            <!-- CTA Buttons -->
+            <div class="flex flex-wrap gap-2.5 pt-2">
+              <button onclick="document.querySelectorAll('[data-target=medic]')[0].click()" class="px-3.5 py-2.5 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white font-bold text-xs rounded-lg shadow-md transition-all">
+                認識 MEDIC 模型
+              </button>
+              <button onclick="document.querySelectorAll('[data-target=emergency]')[0].click()" class="px-3.5 py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold text-xs rounded-lg shadow-md transition-all">
+                啟動 MAYDAY 應變
+              </button>
+              <button onclick="document.getElementById('recon-modal-trigger').click()" class="px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-lg border border-slate-700 transition-all">
+                安全官 360 RECON 檢核
+              </button>
+            </div>
+          </div>
+          <div class="w-full md:w-64 flex justify-center items-center z-10">
+            <div class="w-28 h-28 md:w-32 md:h-32 rounded-full bg-gradient-to-tr from-orange-600/20 to-red-600/20 border border-orange-500/30 flex items-center justify-center text-center animate-pulse">
+              <span class="text-xs font-bold text-slate-100 tracking-wider">
+                SAFETY FIRST<br>
+                <span class="text-orange-500 text-sm md:text-base font-mono">ISO 100%</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric Grid -->
+        <div class="grid grid-cols-2 lg:grid-cols-6 gap-3.5">
+          <div class="glass p-4 rounded-xl flex flex-col justify-between border-l-4 border-l-orange-500 glass-hover">
+            <div class="text-slate-400 text-xs font-semibold">禁入管制區邊界</div>
+            <div class="text-xl font-bold text-slate-100 mt-2 font-mono">1.5 倍</div>
+            <div class="text-[10px] text-slate-500 mt-1">建築物高度之距離</div>
+          </div>
+          <div class="glass p-4 rounded-xl flex flex-col justify-between border-l-4 border-l-red-500 glass-hover">
+            <div class="text-slate-400 text-xs font-semibold">鐵皮軟化溫度</div>
+            <div class="text-xl font-bold text-slate-100 mt-2 font-mono">538°C</div>
+            <div class="text-[10px] text-slate-500 mt-1">輕鋼架強度減半極限</div>
+          </div>
+          <div class="glass p-4 rounded-xl flex flex-col justify-between border-l-4 border-l-red-600 glass-hover">
+            <div class="text-slate-400 text-xs font-semibold">無生還可能地面溫</div>
+            <div class="text-xl font-bold text-slate-100 mt-2 font-mono">>149°C</div>
+            <div class="text-[10px] text-slate-500 mt-1">判定為低度救援行動</div>
+          </div>
+          <div class="glass p-4 rounded-xl flex flex-col justify-between border-l-4 border-l-emerald-500 glass-hover">
+            <div class="text-slate-400 text-xs font-semibold">氣瓶休息20法則</div>
+            <div class="text-xl font-bold text-slate-100 mt-2 font-mono">1 瓶 : 10m</div>
+            <div class="text-[10px] text-slate-500 mt-1">使用 2 支氣瓶休息 20m</div>
+          </div>
+          <div class="glass p-4 rounded-xl flex flex-col justify-between border-l-4 border-l-blue-500 glass-hover">
+            <div class="text-slate-400 text-xs font-semibold">SPE 撤離紅線</div>
+            <div class="text-xl font-bold text-slate-100 mt-2 font-mono">81 / 51</div>
+            <div class="text-[10px] text-slate-500 mt-1">有待救 vs 無待救極限分</div>
+          </div>
+          <div class="glass p-4 rounded-xl flex flex-col justify-between border-l-4 border-l-purple-500 glass-hover">
+            <div class="text-slate-400 text-xs font-semibold">MAYDAY 求救峰值</div>
+            <div class="text-xl font-bold text-slate-100 mt-2 font-mono">20-25m</div>
+            <div class="text-[10px] text-slate-500 mt-1">抵達火場後 19.1% 求救</div>
+          </div>
+        </div>
+
+        <!-- PIA & Case Studies -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Case 1 -->
+          <div class="glass p-5 rounded-2xl flex flex-col justify-between border border-slate-800">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-red-400 border border-slate-700">事故後分析 (PIA) 案例</span>
+                <span class="text-xs text-slate-500">重大歷史火警</span>
+              </div>
+              <h3 class="text-lg font-bold text-slate-100 flex items-center">
+                <i class="fas fa-exclamation-triangle text-orange-500 mr-2 text-sm"></i>
+                彰化喬友大樓火警 (2021年)
+              </h3>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                高層防疫旅館火警，大樓內部濃煙籠罩。消防員受困於昏暗旅館客房中，因氣瓶耗盡殉職。
+              </p>
+              
+              <details class="group mt-4 border-t border-slate-800/80 pt-3">
+                <summary class="text-xs text-orange-500 font-semibold cursor-pointer list-none flex items-center justify-between">
+                  <span>檢視戰術疏失與安全官 Lesson Learned</span>
+                  <i class="fas fa-chevron-down transition-transform group-open:rotate-180 text-[10px]"></i>
+                </summary>
+                <div class="text-xs text-slate-300 mt-2 space-y-2 leading-relaxed bg-[#090d16]/50 p-3 rounded border border-slate-800">
+                  <p><strong>🚨 主要戰術盲點：</strong></p>
+                  <ul class="list-disc pl-4 space-y-1">
+                    <li><strong>資訊不透明：</strong> 救災人員對起火點、旅館逃生口分佈不熟，且未能及時獲得防疫旅館房客配置清冊。</li>
+                    <li><strong>空氣管理 (Air Mgmt) 失敗：</strong> 消防人員於暗黑及濃煙環境搜尋，未能及時注意剩餘氣壓，錯失自救撤退良機。</li>
+                    <li><strong>無線電頻寬擁擠：</strong> MAYDAY 求救訊號混雜在一般通訊中，導致指揮官未能第一時間確認受困者。</li>
+                  </ul>
+                  <p><strong>🛡️ ISO 的現場督導重點：</strong></p>
+                  <p class="text-orange-300 font-medium">落實現場 PAR (人員清點回報) 機制，一旦發現有小組未在預定時間回報或失去聯繫，應立即促請指揮官淨空頻道、分流，並部署 RIC 小組搜救。</p>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <!-- Case 2 -->
+          <div class="glass p-5 rounded-2xl flex flex-col justify-between border border-slate-800">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-red-400 border border-slate-700">事故後分析 (PIA) 案例</span>
+                <span class="text-xs text-slate-500">重大歷史火警</span>
+              </div>
+              <h3 class="text-lg font-bold text-slate-100 flex items-center">
+                <i class="fas fa-exclamation-triangle text-orange-500 mr-2 text-sm"></i>
+                桃園敬鵬工業平鎮廠火警 (2018年)
+              </h3>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                大型印刷電路板 (PCB) 廠房起火。鋼骨鐵皮複合結構，內部存有大量危險化學品，造成多名救災同仁殉職。
+              </p>
+              
+              <details class="group mt-4 border-t border-slate-800/80 pt-3">
+                <summary class="text-xs text-orange-500 font-semibold cursor-pointer list-none flex items-center justify-between">
+                  <span>檢視戰術疏失與安全官 Lesson Learned</span>
+                  <i class="fas fa-chevron-down transition-transform group-open:rotate-180 text-[10px]"></i>
+                </summary>
+                <div class="text-xs text-slate-300 mt-2 space-y-2 leading-relaxed bg-[#090d16]/50 p-3 rounded border border-slate-800">
+                  <p><strong>🚨 主要戰術盲點：</strong></p>
+                  <ul class="list-disc pl-4 space-y-1">
+                    <li><strong>化學品配置不明：</strong> 現場化學儲槽配置及 NFPA 704 / GHS 危害資訊未能第一時間提供給安全幕僚，消防員在未知危險性能量下進攻。</li>
+                    <li><strong>鐵皮屋頂塌陷：</strong> 廠房在高溫強輻射熱下，輕鋼結構於 20-30 分鐘內軟化塌陷，將深入搜救的人員壓困。</li>
+                    <li><strong>水線部署過深：</strong> 外部射水未能有效阻絕延燒，且重兵部署於高大室內空間，撤退難度極高。</li>
+                  </ul>
+                  <p><strong>🛡️ ISO 的現場督導重點：</strong></p>
+                  <p class="text-orange-300 font-medium">大跨度鐵皮屋在受熱 538°C 時結構即面臨危險，安全官必須緊盯結構膨脹與金屬扭曲聲，在危險徵兆出現前 5-10 分鐘即強行終止危險性救災。</p>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hidden Checkbox for Modal Control -->
+        <input type="checkbox" id="recon-modal" class="hidden peer">
+        <label id="recon-modal-trigger" for="recon-modal" class="hidden"></label>
+
+        <!-- RECON Check list Modal -->
+        <div class="fixed inset-0 bg-[#000]/60 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none peer-checked:opacity-100 peer-checked:pointer-events-auto transition-all duration-300">
+          <div class="glass w-full max-w-lg p-6 rounded-2xl border border-slate-700 shadow-2xl relative mx-4">
+            <label for="recon-modal" class="absolute top-4 right-4 text-slate-400 hover:text-white cursor-pointer text-lg">
+              <i class="fas fa-times"></i>
+            </label>
+            <h3 class="text-lg font-bold text-slate-100 flex items-center mb-4">
+              <i class="fas fa-clipboard-check text-orange-500 mr-2"></i>
+              安全官 360 度 RECON 環視檢核表
+            </h3>
+            <div class="space-y-3 text-xs max-h-96 overflow-y-auto pr-2">
+              <p class="text-slate-400 leading-relaxed mb-2">請 ISO 於抵達現場後，迅速繞行現場一週 (360度)，完成以下資訊收集：</p>
+              
+              <label class="flex items-start space-x-3 p-3 rounded bg-[#090d16]/30 hover:bg-[#090d16]/50 transition cursor-pointer min-h-[44px]">
+                <input type="checkbox" class="mt-0.5 w-4.5 h-4.5 rounded text-orange-600 focus:ring-orange-500">
+                <span class="text-slate-200"><strong>確認風向與上風處：</strong> 尋找安全官與 RIC 休息區的合適選址。</span>
+              </label>
+
+              <label class="flex items-start space-x-3 p-3 rounded bg-[#090d16]/30 hover:bg-[#090d16]/50 transition cursor-pointer min-h-[44px]">
+                <input type="checkbox" class="mt-0.5 w-4.5 h-4.5 rounded text-orange-600 focus:ring-orange-500">
+                <span class="text-slate-200"><strong>觀察四面煙霧 (VVDC)：</strong> 評慢體積、流速、密度、顏色，是否存在黑火或閃燃徵兆。</span>
+              </label>
+
+              <label class="flex items-start space-x-3 p-3 rounded bg-[#090d16]/30 hover:bg-[#090d16]/50 transition cursor-pointer min-h-[44px]">
+                <input type="checkbox" class="mt-0.5 w-4.5 h-4.5 rounded text-orange-600 focus:ring-orange-500">
+                <span class="text-slate-200"><strong>結構材質與耐火等級：</strong> 是 RC、加強磚造，還是高危險的輕鋼構鐵皮？</span>
+              </label>
+
+              <label class="flex items-start space-x-3 p-3 rounded bg-[#090d16]/30 hover:bg-[#090d16]/50 transition cursor-pointer min-h-[44px]">
+                <input type="checkbox" class="mt-0.5 w-4.5 h-4.5 rounded text-orange-600 focus:ring-orange-500">
+                <span class="text-slate-200"><strong>危險能量辨識：</strong> 是否有屋頂太陽能板、高壓變電箱、或外部化學原料槽？</span>
+              </label>
+
+              <label class="flex items-start space-x-3 p-3 rounded bg-[#090d16]/30 hover:bg-[#090d16]/50 transition cursor-pointer min-h-[44px]">
+                <input type="checkbox" class="mt-0.5 w-4.5 h-4.5 rounded text-orange-600 focus:ring-orange-500">
+                <span class="text-slate-200"><strong>障礙物與軟化開口：</strong> RIC 搜救受困同仁的潛在進出路線與逃生開口。</span>
+              </label>
+            </div>
+            <div class="mt-5 flex justify-end">
+              <label for="recon-modal" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-lg border border-slate-700 cursor-pointer">
+                完成檢視
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 2: REGULATIONS ================= -->
+      <section id="regulations" class="content-section space-y-6 hidden">
+        <div class="border-b border-slate-800 pb-4">
+          <h2 class="text-xl font-bold text-white flex items-center">
+            <i class="fas fa-balance-scale text-orange-500 mr-2"></i>
+            消防法規、安全官職責與生命三權
+          </h2>
+          <p class="text-slate-400 text-xs mt-1">落實法制保障，結合 NFPA 1521 安全官標準檢核程序。</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Right 1 -->
+          <div class="glass p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+            <div>
+              <div class="text-orange-500 text-xl mb-3"><i class="fas fa-sign-out-alt"></i></div>
+              <h3 class="text-base font-bold text-slate-200">退避權 (消防法 §20-1)</h3>
+              <p class="text-xs text-slate-350 mt-2 leading-relaxed">
+                災害現場無待救人命價值且高度危險時，救災人員得採取防衛式搶救。安全官若判定現場已無生還可能（如黑火、超高溫、結構倒塌臨界），應促請指揮官下達退避令。
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-800 text-[10px] text-orange-400 font-semibold font-mono">
+              § 20-1：得改採防衛式搶救
+            </div>
+          </div>
+
+          <!-- Right 2 -->
+          <div class="glass p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+            <div>
+              <div class="text-orange-500 text-xl mb-3"><i class="fas fa-info-circle"></i></div>
+              <h3 class="text-base font-bold text-slate-200">資訊權 (消防法 §21-1)</h3>
+              <p class="text-xs text-slate-355 mt-2 leading-relaxed">
+                工廠或化學品廠區關係人，必須提供廠區內化學品種類、配置位置與安全資料表（SDS）。安全官應主動要求廠方人員提供 NFPA 704 危害分類與儲槽平面圖。
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-800 text-[10px] text-orange-400 font-semibold font-mono">
+              § 21-1：專責人員應到場引導
+            </div>
+          </div>
+
+          <!-- Right 3 -->
+          <div class="glass p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+            <div>
+              <div class="text-orange-500 text-xl mb-3"><i class="fas fa-search"></i></div>
+              <h3 class="text-base font-bold text-slate-200">調查權 (消防法 §27)</h3>
+              <p class="text-xs text-slate-355 mt-2 leading-relaxed">
+                當發生消防人員因公殉職或重傷時，法定調查委員會將會同專家調查。安全官現場的無線電通訊紀錄（如 CAN 回報、PAR 清點紀錄）將是判定事故原因的重要事證。
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-800 text-[10px] text-orange-400 font-semibold font-mono">
+              § 27：召開災害事故調查會
+            </div>
+          </div>
+        </div>
+
+        <!-- NFPA 1521 Checklist Checklist (Mobile-Friendly) -->
+        <div class="glass p-5 md:p-6 rounded-2xl border border-slate-800 space-y-4">
+          <div class="border-b border-slate-800/60 pb-3">
+            <h3 class="text-base font-bold text-slate-100 flex items-center">
+              <i class="fas fa-tasks text-orange-500 mr-2"></i>
+              NFPA 1521 / 1550 現場安全官 (ISO) 職責檢核表
+            </h3>
+            <p class="text-[10px] text-slate-400 mt-1">現場實施安全官業務流程（點擊核對）：</p>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <div class="space-y-2">
+              <h4 class="text-xs font-bold text-orange-400 uppercase tracking-wide border-b border-slate-800 pb-1">階段一：抵達與初始評估 (Size-Up)</h4>
+              
+              <label class="flex items-start space-x-3 p-2.5 rounded bg-slate-900/50 hover:bg-slate-900 transition cursor-pointer min-h-[44px]">
+                <input type="checkbox" class="mt-0.5 w-4.5 h-4.5 rounded text-orange-600 focus:ring-orange-500">
+                <span class="text-xs text-slate-200"><strong>接受指揮官戰術簡報：</strong> 對齊現場行動計畫 (IAP)。</span>
+              </label>
+              
+              <label class="flex items-start space-x-3 p-2.5 rounded bg-slate-900/50 hover:bg-slate-900 transition cursor-pointer min-h-[44px]">
+                <input type="checkbox" class="mt-0.5 w-4.5 h-4.5 rounded text-orange-600 focus:ring-orange-500">
+                <span class="text-xs text-slate-200"><strong>進行 360 度周圍環視：</strong> 記錄風向、評估四面煙霧 (VVDC) 與耐火度。</span>
+              </label>
+              
+              <label class="flex items-start space-x-3 p-2.5 rounded bg-slate-900/50 hover:bg-slate-900 transition cursor-pointer min-h-[44px]">
+                <input type="checkbox" class="mt-0.5 w-4.5 h-4.5 rounded text-orange-600 focus:ring-orange-500">
+                <span class="text-xs text-slate-200"><strong>確認安全區域：</strong> 劃設 Hot, Warm, Cold 管制區，建立隔離帶。</span>
+              </label>
+            </div>
+
+            <div class="space-y-2">
+              <h4 class="text-xs font-bold text-orange-400 uppercase tracking-wide border-b border-slate-800 pb-1">階段二：運作監督與後勤 (Oversight)</h4>
+              
+              <label class="flex items-start space-x-3 p-2.5 rounded bg-slate-900/50 hover:bg-slate-900 transition cursor-pointer min-h-[44px]">
+                <input type="checkbox" class="mt-0.5 w-4.5 h-4.5 rounded text-orange-600 focus:ring-orange-500">
+                <span class="text-xs text-slate-200"><strong>核對快速救援小組 (RIC)：</strong> 確認 RIC 搜救器材整備與專屬頻道就位。</span>
+              </label>
+              
+              <label class="flex items-start space-x-3 p-2.5 rounded bg-slate-900/50 hover:bg-slate-900 transition cursor-pointer min-h-[44px]">
+                <input type="checkbox" class="mt-0.5 w-4.5 h-4.5 rounded text-orange-600 focus:ring-orange-500">
+                <span class="text-xs text-slate-200"><strong>檢查後勤休息站 (REHAB)：</strong> 確保主動冷卻物資就位，落實氣瓶 20 休息法則。</span>
+              </label>
+              
+              <label class="flex items-start space-x-3 p-2.5 rounded bg-slate-900/50 hover:bg-slate-900 transition cursor-pointer min-h-[44px]">
+                <input type="checkbox" class="mt-0.5 w-4.5 h-4.5 rounded text-orange-600 focus:ring-orange-500">
+                <span class="text-xs text-slate-200"><strong>事故後檢討 (PIA) 備忘：</strong> 記錄關鍵時間節點（撤退信號、PAR），便於後續分析。</span>
+              </label>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ISO Authority Card -->
+        <div class="glass p-6 rounded-2xl border border-slate-800 space-y-4">
+          <h3 class="text-base font-bold text-slate-100 flex items-center">
+            <i class="fas fa-shield-alt text-orange-500 mr-2"></i>
+            現場安全官 (ISO) 的處置權限與角色
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            ISO 與一般安全幕僚（Safety Staff）的關鍵差異在於<strong>「緊急處置權」</strong>。在急迫危險狀況下，ISO 擁有獨立中斷或調整戰術的公權力：
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            <div class="p-4 rounded-xl bg-orange-950/20 border border-orange-500/30">
+              <h4 class="text-sm font-bold text-orange-400 mb-1 flex items-center">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-500 mr-2"></span>
+                軟性介入 (Soft Intervention)
+              </h4>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                當發現消防員防護裝備（PPE）未穿妥、未落實氣瓶管制、或在無危害疑慮處有違規行為。安全官可透過警告、面談或提醒，促使同仁修正，並同步告知帶班幹部。
+              </p>
+            </div>
+            <div class="p-4 rounded-xl bg-red-950/20 border border-red-500/30">
+              <h4 class="text-sm font-bold text-red-400 mb-1 flex items-center">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500 mr-2 animate-ping"></span>
+                硬性介入 (Hard Intervention)
+              </h4>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                當面臨<strong>即時生命危脅</strong>（例如：屋頂結構即將塌陷、突發性爆燃、進入致命低度救援區）。安全官有權直接下令該區同仁「停止動作並立刻撤退」，事後再向指揮官回報。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 3: MEDIC ================= -->
+      <section id="medic" class="content-section space-y-6 hidden">
+        <div class="border-b border-slate-800 pb-4">
+          <h2 class="text-xl font-bold text-white flex items-center">
+            <i class="fas fa-calculator text-orange-500 mr-2"></i>
+            M.E.D.I.C 現場作業模型與決策計算工具
+          </h2>
+          <p class="text-slate-400 text-xs mt-1">從監視、評估、到防範與溝通的科學救災工具箱。</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-8 space-y-6">
+            
+            <!-- SPE Risk Calculator -->
+            <div class="glass p-5 rounded-2xl border border-slate-800">
+              <h3 class="text-base font-bold text-slate-100 flex items-center mb-4">
+                <i class="fas fa-calculator text-orange-500 mr-2"></i>
+                SPE 現場風險量化評估計算器
+              </h3>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-5">
+                  <div class="space-y-2">
+                    <div class="flex justify-between text-xs">
+                      <span class="text-slate-300 font-bold">S 嚴重性 (Severity 1-10)</span>
+                      <span id="spe-s-val" class="text-orange-400 font-bold font-mono text-sm">5</span>
+                    </div>
+                    <input type="range" id="spe-s" min="1" max="10" value="5" class="w-full">
+                    <div class="flex justify-between text-[10px] text-slate-500">
+                      <span>1 輕微</span>
+                      <span>5 中等危害</span>
+                      <span>10 殉職/災難</span>
+                    </div>
+                  </div>
+
+                  <div class="space-y-2">
+                    <div class="flex justify-between text-xs">
+                      <span class="text-slate-300 font-bold">P 發生機率 (Probability 1-10)</span>
+                      <span id="spe-p-val" class="text-orange-400 font-bold font-mono text-sm">5</span>
+                    </div>
+                    <input type="range" id="spe-p" min="1" max="10" value="5" class="w-full">
+                    <div class="flex justify-between text-[10px] text-slate-500">
+                      <span>1 不可能</span>
+                      <span>5 有可能</span>
+                      <span>10 確定發生</span>
+                    </div>
+                  </div>
+
+                  <div class="space-y-2">
+                    <div class="flex justify-between text-xs">
+                      <span class="text-slate-300 font-bold">E 暴露威脅 (Exposure 1-10)</span>
+                      <span id="spe-e-val" class="text-orange-400 font-bold font-mono text-sm">5</span>
+                    </div>
+                    <input type="range" id="spe-e" min="1" max="10" value="5" class="w-full">
+                    <div class="flex justify-between text-[10px] text-slate-500">
+                      <span>1 無暴露</span>
+                      <span>5 適度暴露</span>
+                      <span>10 內部持續</span>
+                    </div>
+                  </div>
+
+                  <label class="flex items-center space-x-3 p-3 rounded bg-slate-900 border border-slate-800 cursor-pointer min-h-[44px]">
+                    <input type="checkbox" id="spe-human-life" checked class="w-4.5 h-4.5 rounded text-orange-600 focus:ring-orange-500">
+                    <span class="text-xs text-slate-200"><strong>人命搶救價值：</strong> 現場仍有人命受困或待搜救</span>
+                  </label>
+                </div>
+
+                <div class="flex flex-col justify-between p-4 rounded-xl bg-slate-900 border border-slate-800">
+                  <div class="flex items-center justify-around py-2">
+                    <div id="spe-score-circle" class="relative w-28 h-28 rounded-full border-4 flex flex-col items-center justify-center transition-all duration-300">
+                      <span class="text-[10px] text-slate-400 font-semibold">SPE 總分數</span>
+                      <span id="spe-score" class="text-3xl font-extrabold font-mono">25</span>
+                      <span class="text-[10px] text-slate-500">/ 100 Max</span>
+                    </div>
+                    <div class="text-xs space-y-1.5 text-slate-300 max-w-[150px]">
+                      <div>📌 <strong>81 分以上：</strong> 極高風險撤離紅線</div>
+                      <div>📌 <strong>51 分以上：</strong> 若無人命價值，即屬不可接受風險</div>
+                    </div>
+                  </div>
+
+                  <div id="spe-alert" class="mt-4 p-3 rounded-lg text-xs leading-relaxed"></div>
+                </div>
+              </div>
+              
+              <div id="spe-action-text" class="mt-4 p-3.5 bg-[#090d16]/40 rounded border border-slate-800 text-xs"></div>
+            </div>
+
+            <!-- VTS & Hazard matrix -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              
+              <!-- VTS Evaluator -->
+              <div class="glass p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                <div>
+                  <h3 class="text-base font-bold text-slate-100 flex items-center mb-3">
+                    <i class="fas fa-columns text-orange-500 mr-2"></i>
+                    VTS 價值時間規模評估器
+                  </h3>
+                  
+                  <div class="space-y-3">
+                    <div>
+                      <label class="block text-[10px] text-slate-400 font-bold mb-1">價值 (Value)：現場救援價值評估</label>
+                      <select id="vts-value" class="w-full px-3 py-3 bg-slate-900 border border-slate-800 rounded text-xs text-slate-200 focus:outline-none focus:border-orange-500 min-h-[44px]">
+                        <option value="life">待救生還者 (人命搶救)</option>
+                        <option value="property">一般產權保護 (無受困人命)</option>
+                        <option value="none">低度救援區域 (無生存可能)</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label class="block text-[10px] text-slate-400 font-bold mb-1">時間 (Time)：結構穩定度與逃生時效</label>
+                      <select id="vts-time" class="w-full px-3 py-3 bg-slate-900 border border-slate-800 rounded text-xs text-slate-200 focus:outline-none focus:border-orange-500 min-h-[44px]">
+                        <option value="stable">結構穩定 (火勢初期/具安全時間)</option>
+                        <option value="marginal">邊緣狀態 (受熱時間達軟化臨界)</option>
+                        <option value="immediate">即時危險 (崩塌在即/大火燃燒中)</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label class="block text-[10px] text-slate-400 font-bold mb-1">規模 (Size)：火勢與危險能量規模</label>
+                      <select id="vts-size" class="w-full px-3 py-3 bg-slate-900 border border-slate-800 rounded text-xs text-slate-200 focus:outline-none focus:border-orange-500 min-h-[44px]">
+                        <option value="contained">侷限區域 (室內單一居室或局限火災)</option>
+                        <option value="expanding">擴展中 (多樓層延燒/局部悶燒)</option>
+                        <option value="uncontrolled">失控狀態 (全面燃燒/高危害化學洩漏)</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="vts-result" class="mt-4"></div>
+              </div>
+
+              <!-- Hazard Matrix (Scrollable) -->
+              <div class="glass p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                <div>
+                  <h3 class="text-base font-bold text-slate-100 flex items-center mb-1">
+                    <i class="fas fa-th text-orange-500 mr-2"></i>
+                    危害排序二維矩陣
+                  </h3>
+                  <p class="text-[10px] text-slate-400 mb-3">點擊矩陣格檢視風險說明與處置方案</p>
+                  
+                  <div class="matrix-container">
+                    <div class="grid grid-cols-6 gap-1 font-mono text-[10px] text-center mb-3 min-w-[280px]">
+                      <div class="text-slate-500 text-[8px] flex items-center justify-center font-sans">S \ P</div>
+                      <div class="text-slate-500 flex items-center justify-center">1</div>
+                      <div class="text-slate-500 flex items-center justify-center">2</div>
+                      <div class="text-slate-500 flex items-center justify-center">3</div>
+                      <div class="text-slate-500 flex items-center justify-center">4</div>
+                      <div class="text-slate-500 flex items-center justify-center">5</div>
+
+                      <div class="text-slate-500 flex items-center justify-start text-[8px] font-sans">5-災難</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="5" data-l="1">S5</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="5" data-l="2">S5</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="5" data-l="3">C5</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="5" data-l="4">C5</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="5" data-l="5">C5</div>
+
+                      <div class="text-slate-500 flex items-center justify-start text-[8px] font-sans">4-臨界</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="4" data-l="1">M4</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="4" data-l="2">S4</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="4" data-l="3">S4</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="4" data-l="4">C4</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="4" data-l="5">C4</div>
+
+                      <div class="text-slate-500 flex items-center justify-start text-[8px] font-sans">3-中度</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="3" data-l="1">M3</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="3" data-l="2">M3</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="3" data-l="3">S3</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="3" data-l="4">S3</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="3" data-l="5">C3</div>
+
+                      <div class="text-slate-500 flex items-center justify-start text-[8px] font-sans">2-輕微</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="2" data-l="1">L2</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="2" data-l="2">M2</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="2" data-l="3">M2</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="2" data-l="4">S2</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="2" data-l="5">S2</div>
+
+                      <div class="text-slate-500 flex items-center justify-start text-[8px] font-sans">1-忽略</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="1" data-l="1">L1</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="1" data-l="2">L1</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="1" data-l="3">M1</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="1" data-l="4">M1</div>
+                      <div class="matrix-cell rounded text-[9px]" data-s="1" data-l="5">S1</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="matrix-detail" class="p-3 bg-slate-900 border border-slate-800 rounded-lg"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-4 space-y-6">
+            <div class="glass p-5 rounded-2xl border border-slate-800 flex flex-col justify-between h-full">
+              <div class="space-y-4">
+                <div>
+                  <h3 class="text-base font-bold text-slate-100 flex items-center">
+                    <i class="fas fa-walkie-talkie text-orange-500 mr-2"></i>
+                    無線電 CAN 回報產生器
+                  </h3>
+                  <p class="text-[10px] text-slate-400 mt-1">簡短清晰回報現場狀態，符合無線電 3C 原則。</p>
+                </div>
+
+                <div>
+                  <label class="block text-[10px] text-slate-400 font-bold mb-1">C (Conditions) 現場狀況：</label>
+                  <input type="text" id="can-c" placeholder="例如：鐵皮牆面受熱膨脹金屬扭曲聲" class="w-full px-3 py-3 bg-slate-900 border border-slate-800 rounded text-xs text-slate-200 focus:outline-none focus:border-orange-500 min-h-[44px]">
+                </div>
+
+                <div>
+                  <label class="block text-[10px] text-slate-400 font-bold mb-1">A (Actions) 採取行動：</label>
+                  <input type="text" id="can-a" placeholder="例如：第一梯人員停止深入，順水線撤回中" class="w-full px-3 py-3 bg-slate-900 border border-slate-800 rounded text-xs text-slate-200 focus:outline-none focus:border-orange-500 min-h-[44px]">
+                </div>
+
+                <div>
+                  <label class="block text-[10px] text-slate-400 font-bold mb-1">N (Needs) 需求資源：</label>
+                  <input type="text" id="can-n" placeholder="例如：請求指揮官淨空頻道並增調排煙車阻絕" class="w-full px-3 py-3 bg-slate-900 border border-slate-800 rounded text-xs text-slate-200 focus:outline-none focus:border-orange-500 min-h-[44px]">
+                </div>
+
+                <div>
+                  <label class="block text-[10px] text-slate-400 font-bold mb-1">回報預覽：</label>
+                  <pre id="can-preview" class="w-full p-3 bg-[#090d16]/80 border border-slate-800 rounded text-[10px] text-orange-400 whitespace-pre-wrap font-mono leading-relaxed h-28 overflow-y-auto"></pre>
+                </div>
+              </div>
+
+              <button id="copy-can-btn" class="w-full py-3 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-lg transition-all shadow-md mt-4 min-h-[44px]">
+                複製 CAN 回報文字
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass p-5 md:p-6 rounded-2xl border border-slate-800">
+          <h3 class="text-base font-bold text-slate-100 mb-4 flex items-center">
+            <i class="fas fa-project-diagram text-orange-500 mr-2"></i>
+            M.E.D.I.C 現場作業模型架構說明
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/80">
+              <div class="font-bold text-orange-400 text-sm">M 監視 (Monitor)</div>
+              <p class="text-[10px] text-slate-400 mt-1 leading-relaxed">進行 360 度 RECON 環視，對火煙 (VVDC)、建築物、消防員狀態及危險能量進行持續性資訊採集與監控。</p>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/80">
+              <div class="font-bold text-orange-400 text-sm">E 評估 (Evaluate)</div>
+              <p class="text-[10px] text-slate-400 mt-1 leading-relaxed">使用 VTS 決策模式、SPE 風險評估公式及危害排序矩陣，將現場的直覺危險感轉化為量化指標與數據。</p>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/80">
+              <div class="font-bold text-orange-400 text-sm">D 預防 (Develop)</div>
+              <p class="text-[10px] text-slate-400 mt-1 leading-relaxed">主動劃設禁入管制區 (1.5倍牆高)；建立 REHAB 後勤休息站，落實 20 法則；落實人員進入管制。</p>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/80">
+              <div class="font-bold text-orange-400 text-sm">I 介入 (Intervention)</div>
+              <p class="text-[10px] text-slate-400 mt-1 leading-relaxed">在急迫危害情境下下達硬性干預命令，如強制撤退。在一般偏差下採取軟性干預，糾正PPE等不合規行為。</p>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/80">
+              <div class="font-bold text-orange-400 text-sm">C 溝通 (Communicate)</div>
+              <p class="text-[10px] text-slate-400 mt-1 leading-relaxed">落實無線電 3C 原則 (Connect, Convey, Confirm)；使用 CAN 回報架構與 LUNAR 架構對話。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 4: FIREGROUND ================= -->
+      <section id="fireground" class="content-section space-y-6 hidden">
+        <div class="border-b border-slate-800 pb-4">
+          <h2 class="text-xl font-bold text-white flex items-center">
+            <i class="fas fa-eye text-orange-500 mr-2"></i>
+            災害現場風險判讀 (Reading the Fireground)
+          </h2>
+          <p class="text-slate-400 text-xs mt-1">Dave Dodson 的 VVDC 火煙判讀法、流動路徑 (Flow Path) 規範與鐵皮結構風險。</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-7 space-y-6">
+            <div class="glass p-5 rounded-2xl border border-slate-800">
+              <h3 class="text-base font-bold text-slate-100 flex items-center mb-3">
+                <i class="fas fa-smog text-orange-500 mr-2"></i>
+                火煙判讀細節：Dave Dodson VVDC 四大屬性
+              </h3>
+              <p class="text-xs text-slate-350 leading-relaxed mb-4">
+                安全官 (ISO) 應利用 Dave Dodson 的 VVDC 架構，判讀火場中煙霧所透露的深層危害：
+              </p>
+
+              <div class="space-y-3.5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                  <div class="p-3 rounded bg-[#090d16]/50 border border-slate-800/60 text-xs">
+                    <span class="font-bold text-orange-400"><i class="fas fa-cloud mr-1"></i> Volume (體積)</span>
+                    <p class="text-slate-300 mt-1 text-[11px] leading-relaxed">
+                      代表建築物內已經<strong>熱裂解碳化的燃料總量</strong>。體積大雖能直觀顯示規模，但不可單獨做為危險度的唯一評判。
+                    </p>
+                  </div>
+                  <div class="p-3 rounded bg-[#090d16]/50 border border-slate-800/60 text-xs">
+                    <span class="font-bold text-orange-400"><i class="fas fa-gauge-high mr-1"></i> Velocity (流速)</span>
+                    <p class="text-slate-300 mt-1 text-[11px] leading-relaxed">
+                      煙霧噴出的速度，由高熱膨脹壓力推送。
+                      若出口流速出現<strong>「湍流 (Turbulent)」</strong>，代表火場即將在數秒內發生<strong>閃燃 (Flashover)</strong>。
+                    </p>
+                  </div>
+                  <div class="p-3 rounded bg-[#090d16]/50 border border-slate-800/60 text-xs">
+                    <span class="font-bold text-orange-400"><i class="fas fa-cubes mr-1"></i> Density (密度)</span>
+                    <p class="text-slate-300 mt-1 text-[11px] leading-relaxed">
+                      <strong>最關鍵的指標！</strong> 煙霧厚重稠密代表含有大量可燃性微粒與毒性氣體（煙即燃料）。密度越厚，爆炸性與燃燒能量越強。
+                    </p>
+                  </div>
+                  <div class="p-3 rounded bg-[#090d16]/50 border border-slate-800/60 text-xs">
+                    <span class="font-bold text-orange-400"><i class="fas fa-palette mr-1"></i> Color (顏色)</span>
+                    <p class="text-slate-300 mt-1 text-[11px] leading-relaxed">
+                      白煙代表水分蒸發或初期受熱；灰黃煙代表建材缺氧悶燒；<strong>黑色滾滾濃煙（黑火）</strong>則表示煙氣本身溫度已達極限，處於燃燒邊緣。
+                    </p>
+                  </div>
+                </div>
+
+                <div class="p-3.5 rounded bg-red-950/20 border border-red-500/20 text-xs space-y-2">
+                  <div class="font-bold text-red-400 flex items-center">
+                    <i class="fas fa-door-open mr-1.5 animate-pulse"></i>
+                    火場流動路徑 (Flow Path) 安全管制規範
+                  </div>
+                  <p class="text-[11px] text-slate-300 leading-relaxed">
+                    「流動路徑」是高溫高壓煙熱流向低壓冷空氣出口（如破拆的門窗、通風口）的必經通道。
+                  </p>
+                  <ul class="list-disc pl-4 text-[10px] text-slate-400 space-y-1">
+                    <li><strong>嚴禁阻擋出口：</strong> 消防人員切勿站在流動路徑的「出風口」或排煙通道內，防範被突然湧出的火舌吞噬。</li>
+                    <li><strong>進風與排煙控制：</strong> 通風排煙必須與射水撲滅同步進行。若未水線掩護即打破窗戶，將引入新鮮空氣，可能引發急速閃燃或爆燃 (Backdraft)。</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="glass p-5 rounded-2xl border border-slate-800">
+              <h3 class="text-base font-bold text-slate-100 flex items-center mb-3">
+                <i class="fas fa-bolt text-orange-500 mr-2"></i>
+                危險能量與熱顯像儀 (TIC) 限制
+              </h3>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-3 rounded bg-slate-900 border border-slate-800">
+                  <div class="text-xs font-bold text-blue-400 flex items-center">
+                    <i class="fas fa-solar-panel mr-1.5"></i>
+                    太陽能光電 (PV) 風險
+                  </div>
+                  <p class="text-[11px] text-slate-300 mt-1.5 leading-relaxed">
+                    即便切斷交流配電，太陽能光電板（DC直流端）只要在微弱天光、月光或火場烈焰照射下，仍將持續產生<strong>數百伏特高壓直流電</strong>！
+                  </p>
+                  <p class="text-[10px] text-slate-400 mt-1">
+                    安全官應督導水線朝光電板噴射時維持安全距離（霧狀射水且保持3公尺以上），嚴禁踩踏或使用破拆工具直接撞擊光電板。
+                  </p>
+                </div>
+
+                <div class="p-3 rounded bg-slate-900 border border-slate-800">
+                  <div class="text-xs font-bold text-yellow-400 flex items-center">
+                    <i class="fas fa-video mr-1.5"></i>
+                    熱顯像儀 (TIC) 反射與「白屏」
+                  </div>
+                  <p class="text-[11px] text-slate-300 mt-1.5 leading-relaxed">
+                    熱顯像儀有其局限性：遭遇<strong>鏡面、大理石、光滑金屬、水面</strong>會產生高溫反射偽影；遭遇高熱煙霧飽和時，會產生「白屏 (White-out)」。
+                  </p>
+                  <p class="text-[10px] text-slate-400 mt-1">
+                    安全官應訓練消防同仁不能過度依賴 TIC，必須輔以金屬工具觸摸地板與探步。
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-6">
+            <div class="glass p-5 rounded-2xl border border-slate-800 flex flex-col justify-between h-full">
+              <div>
+                <h3 class="text-base font-bold text-slate-100 flex items-center mb-1">
+                  <i class="fas fa-home text-orange-500 mr-2"></i>
+                  鐵皮屋倒塌 5 步預測指標
+                </h3>
+                <p class="text-[10px] text-slate-400 mb-3">請在巡視中勾選符合的倒塌徵兆 (懸停標籤可看詳細解釋):</p>
+                
+                <div class="space-y-3">
+                  <label class="flex items-center space-x-3 p-3 rounded bg-slate-900 border border-slate-800 cursor-pointer min-h-[44px]">
+                    <input type="checkbox" id="step1" class="collapse-chk rounded text-orange-600 focus:ring-orange-500 w-4.5 h-4.5">
+                    <span class="text-xs text-slate-200"><strong>步驟一：</strong> 鐵皮外牆或鋼架變色紅熱</span>
+                  </label>
+
+                  <label class="flex items-center space-x-3 p-3 rounded bg-slate-900 border border-slate-800 cursor-pointer min-h-[44px]">
+                    <input type="checkbox" id="step2" class="collapse-chk rounded text-orange-600 focus:ring-orange-500 w-4.5 h-4.5">
+                    <span class="text-xs text-slate-200"><strong>步驟二：</strong> 煙霧從縫隙中湍急高壓噴出</span>
+                  </label>
+
+                  <label class="flex items-center space-x-3 p-3 rounded bg-slate-900 border border-slate-800 cursor-pointer min-h-[44px]">
+                    <input type="checkbox" id="step3" class="collapse-chk rounded text-orange-600 focus:ring-orange-500 w-4.5 h-4.5">
+                    <span class="text-xs text-slate-200"><strong>步驟三：</strong> 發出強烈金屬扭曲、敲擊聲</span>
+                  </label>
+
+                  <label class="flex items-center space-x-3 p-3 rounded bg-slate-900 border border-slate-800 cursor-pointer min-h-[44px]">
+                    <input type="checkbox" id="step4" class="collapse-chk rounded text-orange-600 focus:ring-orange-500 w-4.5 h-4.5">
+                    <span class="text-xs text-slate-200"><strong>步驟四：</strong> 牆面或屋頂發生明顯凹陷外凸</span>
+                  </label>
+
+                  <label class="flex items-center space-x-3 p-3 rounded bg-slate-900 border border-slate-800 cursor-pointer min-h-[44px]">
+                    <input type="checkbox" id="step5" class="collapse-chk rounded text-orange-600 focus:ring-orange-500 w-4.5 h-4.5">
+                    <span class="text-xs text-slate-200"><strong>步驟五：</strong> 直擊射水導致溫差急劇拉伸收縮</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="mt-4 space-y-3">
+                <div class="flex justify-between items-center text-xs">
+                  <span id="collapse-progress-text" class="font-bold text-slate-200">倒塌預兆符合度: 0%</span>
+                  <span class="text-[10px] text-slate-500">5項即面臨立即崩塌</span>
+                </div>
+                <div class="w-full bg-slate-800 rounded-full h-1.5">
+                  <div id="collapse-progress" class="bg-gradient-to-r from-yellow-500 to-red-500 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                
+                <div id="collapse-warning-indicator"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass p-5 md:p-6 rounded-2xl border border-slate-800">
+          <h3 class="text-base font-bold text-slate-100 mb-4 flex items-center">
+            <i class="fas fa-heartbeat text-orange-500 mr-2"></i>
+            消防員生理狀態判讀 (Firefighters Status)
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+            <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+              <div class="font-bold text-orange-400 flex items-center">
+                <i class="fas fa-thermometer-high mr-1.5"></i>
+                核心體溫 38°C 臨界線
+              </div>
+              <p class="text-slate-300 leading-relaxed">
+                消防人員穿著厚重 PPE (消防衣) 進行重度體力工作時，熱量無法散逸。當核心體溫<strong>超過 38°C</strong>，大腦反應變慢、空間定位能力下降、錯誤率增加。
+              </p>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+              <div class="font-bold text-orange-400 flex items-center">
+                <i class="fas fa-tint-slash mr-1.5"></i>
+                脫水與電解質流失
+              </div>
+              <p class="text-slate-300 leading-relaxed">
+                消防員在火場中每分鐘出汗量極高，短時間內可能失水 1-2 公升。脫水會導致心臟每搏輸出量下降、心率代償性飆升，大幅增加心血管疾病猝死風險。
+              </p>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+              <div class="font-bold text-orange-400 flex items-center">
+                <i class="fas fa-bed mr-1.5"></i>
+                睡眠與決策關聯
+              </div>
+              <p class="text-slate-300 leading-relaxed">
+                研究指出，睡眠不足 6 小時 of 消防人員在複雜現場中，擔任指揮或安全官時，對風險評估的 SPE 評分偏差率增加 35%。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 5: REHAB ================= -->
+      <section id="rehab" class="content-section space-y-6 hidden">
+        <div class="border-b border-slate-800 pb-4">
+          <h2 class="text-xl font-bold text-white flex items-center">
+            <i class="fas fa-heartbeat text-orange-500 mr-2"></i>
+            消防員後勤與健康照護 (REHAB & Health)
+          </h2>
+          <p class="text-slate-400 text-xs mt-1">設置火場休息站，透過水分補給與生理監測杜絕熱衰竭與猝死。</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-6 glass p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <h3 class="text-base font-bold text-slate-100 flex items-center">
+                  <i class="fas fa-stopwatch text-orange-500 mr-2"></i>
+                  氣瓶工作休息計時器 (20法則)
+                </h3>
+                <div class="flex space-x-1.5">
+                  <button id="rehab-rule-1" class="px-2.5 py-1.5 rounded text-xs font-bold bg-orange-600 text-white min-h-[36px]">Rule 1 (10分)</button>
+                  <button id="rehab-rule-2" class="px-2.5 py-1.5 rounded text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 min-h-[36px]">Rule 2 (20分)</button>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 text-center space-y-2">
+                <p id="rehab-timer-label" class="text-xs text-slate-300">任務階段：使用1支氣瓶/工作20分鐘 (建議休息10分鐘)</p>
+                <div id="rehab-timer-display" class="text-5xl font-extrabold font-mono text-orange-500 tracking-wider">10:00</div>
+              </div>
+
+              <div class="flex space-x-2">
+                <button id="rehab-start" class="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition-all flex items-center justify-center space-x-1 min-h-[44px]">
+                  <i class="fas fa-play"></i> <span>啟動休息計時</span>
+                </button>
+                <button id="rehab-pause" disabled class="flex-1 py-3 bg-yellow-600 hover:bg-yellow-700 text-white font-bold text-xs rounded-lg transition-all flex items-center justify-center space-x-1 disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]">
+                  <i class="fas fa-pause"></i> <span>暫停</span>
+                </button>
+                <button id="rehab-reset" class="py-3 px-4 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-lg transition-all min-h-[44px]">
+                  重置
+                </button>
+              </div>
+            </div>
+
+            <div class="text-[10px] text-slate-400 mt-4 leading-relaxed bg-[#090d16]/30 p-3 rounded border border-slate-800">
+              <strong>💡 休息站 (REHAB) 設置原則：</strong><br>
+              1. 必須設置於冷區、上風處且避光通風處。<br>
+              2. 採取<strong>主動冷卻</strong>（使用冰毛巾敷頸、濕手套擦拭、溫水浸泡手臂）與被動冷卻相結合。<br>
+              3. 消防員再次派入火場前，核心心率須降至 110 bpm 以下，血壓與體溫恢復正常。
+            </div>
+          </div>
+
+          <div class="lg:col-span-6 glass p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+            <div class="space-y-4">
+              <h3 class="text-base font-bold text-slate-100 flex items-center">
+                <i class="fas fa-glass-water text-orange-500 mr-2"></i>
+                火場人員補水量評估器
+              </h3>
+              
+              <div class="space-y-3">
+                <div>
+                  <label class="block text-[10px] text-slate-400 font-bold mb-1">請輸入預估工作總時間 (分鐘)：</label>
+                  <input type="number" id="hydrate-duration" value="30" min="1" max="300" class="w-full px-3 py-3 bg-slate-900 border border-slate-800 rounded text-xs text-slate-200 focus:outline-none focus:border-orange-500 font-mono min-h-[44px]">
+                </div>
+              </div>
+
+              <div id="hydrate-result-text" class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2"></div>
+            </div>
+
+            <div class="text-[10px] text-slate-400 mt-4 leading-relaxed bg-[#090d16]/30 p-3 rounded border border-slate-800">
+              <strong>⚠️ 火場現場應避免的食物：</strong><br>
+              - 避免提供含有高鹽分或難以消化的油炸類食品。<br>
+              - 嚴禁飲用含糖量超過 8% 的高糖飲料，這會減緩小腸吸收速度。<br>
+              - 運動飲料與水分的黃金補充比例約為 <strong>1 : 1</strong>。
+            </div>
+          </div>
+        </div>
+
+        <div class="glass p-5 md:p-6 rounded-2xl border border-slate-800">
+          <h3 class="text-base font-bold text-slate-100 mb-4 flex items-center">
+            <i class="fas fa-biohazard text-orange-500 mr-2"></i>
+            消防員長期職業暴露與致癌風險
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-slate-350 leading-relaxed">
+            <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2">
+              <div class="font-bold text-red-400 flex items-center">
+                <i class="fas fa-skull-crossbones mr-1.5"></i>
+                有毒致癌氣體 (CO 與 HCN)
+              </div>
+              <p>
+                燃燒建材會釋放一氧化碳 (CO) 與氰化氫 (HCN)。氰化氫會阻斷細胞呼吸鏈，毒性是一氧化碳的 35 倍！長期累積會增加白血病、甲狀腺癌及肺癌的患病機率。
+              </p>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2">
+              <div class="font-bold text-red-400 flex items-center">
+                <i class="fas fa-tint mr-1.5"></i>
+                心血管負荷與肺功能受損
+              </div>
+              <p>
+                極度熱壓力引發脫水，會導致血液粘稠度增加，極易誘發血栓形成與心肌梗塞。煙氣中微小的粉塵PM2.5會穿透肺泡，造成消防人員肺功能提前老化與慢性氣喘。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 6: EMERGENCY ================= -->
+      <section id="emergency" class="content-section space-y-6 hidden">
+        <div class="border-b border-slate-800 pb-4">
+          <h2 class="text-xl font-bold text-white flex items-center">
+            <i class="fas fa-radiation text-orange-500 mr-2"></i>
+            緊急 MAYDAY 應變與 RIC/化災專區
+          </h2>
+          <p class="text-slate-400 text-xs mt-1">受困火場自救步驟模擬、危險化學品標誌生成及 LNG 蒸氣雲爆炸防護半徑估算。</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-8 glass p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-base font-bold text-slate-100 flex items-center">
+                  <i class="fas fa-life-ring text-red-500 mr-2"></i>
+                  GRAB LIVES 火場自救程序模擬器
+                </h3>
+                <span class="text-[10px] text-red-400 font-bold tracking-widest uppercase animate-pulse">MAYDAY Trainer</span>
+              </div>
+
+              <div class="w-full bg-slate-800 rounded-full h-1.5 mb-4">
+                <div id="grab-progress" class="bg-red-500 h-1.5 rounded-full transition-all duration-300" style="width: 11%"></div>
+              </div>
+
+              <div class="p-5 rounded-xl bg-slate-900 border border-slate-800 min-h-[220px] flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center space-x-3 mb-2">
+                    <span id="grab-badge" class="w-10 h-10 rounded-lg bg-red-600 flex items-center justify-center font-extrabold text-white text-xl shadow-lg shadow-red-600/20 font-mono">G</span>
+                    <h4 id="grab-title" class="font-bold text-slate-200 text-base">Gauge (檢查氣壓)</h4>
+                  </div>
+                  <p id="grab-desc" class="text-xs text-slate-300 leading-relaxed"></p>
+                </div>
+
+                <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
+                  <div class="text-[10px] text-slate-400">
+                    <span class="text-red-400 font-bold mr-1">模擬動作：</span>
+                    <span id="grab-action"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex space-x-2 mt-4">
+              <button id="grab-prev" class="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-lg border border-slate-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]">
+                <i class="fas fa-chevron-left mr-1"></i> 上一步
+              </button>
+              <button id="grab-next" class="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-lg transition-all flex items-center justify-center space-x-1 shadow-md shadow-red-600/20 min-h-[44px]">
+                <span>下一步</span> <i class="fas fa-chevron-right ml-1"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="lg:col-span-4 glass p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+            <div>
+              <h3 class="text-base font-bold text-slate-100 flex items-center mb-3">
+                <i class="fas fa-industry text-orange-500 mr-2"></i>
+                NFPA 704 標誌生成器
+              </h3>
+
+              <div class="flex justify-center items-center py-4 bg-slate-950/40 rounded-xl border border-slate-800/80 mb-4">
+                <div class="nfpa-diamond border border-slate-800">
+                  <div class="nfpa-quadrant nfpa-top">
+                    <span id="nfpa-f-text" class="nfpa-text">0</span>
+                  </div>
+                  <div class="nfpa-quadrant nfpa-left">
+                    <span id="nfpa-h-text" class="nfpa-text">0</span>
+                  </div>
+                  <div class="nfpa-quadrant nfpa-right">
+                    <span id="nfpa-r-text" class="nfpa-text">0</span>
+                  </div>
+                  <div class="nfpa-quadrant nfpa-bottom">
+                    <span id="nfpa-s-text" class="nfpa-text"> </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <div>
+                  <label class="block text-[8px] text-blue-400 font-bold mb-0.5">H 健康等級 (藍)</label>
+                  <select id="nfpa-h-select" class="w-full px-2 py-2 bg-slate-900 border border-slate-800 rounded text-slate-200 focus:outline-none min-h-[36px]">
+                    <option value="0">0 - 無危險</option>
+                    <option value="1">1 - 輕微危害</option>
+                    <option value="2">2 - 中度危害</option>
+                    <option value="3">3 - 嚴重危害</option>
+                    <option value="4">4 - 致命危害</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-[8px] text-red-400 font-bold mb-0.5">F 易燃等級 (紅)</label>
+                  <select id="nfpa-f-select" class="w-full px-2 py-2 bg-slate-900 border border-slate-800 rounded text-slate-200 focus:outline-none min-h-[36px]">
+                    <option value="0">0 - 不燃</option>
+                    <option value="1">1 - 高溫燃</option>
+                    <option value="2">2 - 中度可燃</option>
+                    <option value="3">3 - 易燃物</option>
+                    <option value="4">4 - 極易燃</option>
+                  </select>
+                </div>
+
+                <div class="mt-1.5">
+                  <label class="block text-[8px] text-yellow-400 font-bold mb-0.5">R 不穩定度 (黃)</label>
+                  <select id="nfpa-r-select" class="w-full px-2 py-2 bg-slate-900 border border-slate-800 rounded text-slate-200 focus:outline-none min-h-[36px]">
+                    <option value="0">0 - 穩定</option>
+                    <option value="1">1 - 溫熱反應</option>
+                    <option value="2">2 - 劇烈反應</option>
+                    <option value="3">3 - 遇水爆震</option>
+                    <option value="4">4 - 極易爆炸</option>
+                  </select>
+                </div>
+
+                <div class="mt-1.5">
+                  <label class="block text-[8px] text-slate-400 font-bold mb-0.5">S 特殊代碼 (白)</label>
+                  <select id="nfpa-s-select" class="w-full px-2 py-2 bg-slate-900 border border-slate-800 rounded text-slate-200 focus:outline-none min-h-[36px]">
+                    <option value="">無符號</option>
+                    <option value="W">W (禁水)</option>
+                    <option value="OX">OX (強氧化劑)</option>
+                    <option value="SA">SA (窒息氣體)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div id="nfpa-desc-container" class="mt-4 p-3 bg-slate-900 border border-slate-800 rounded-lg"></div>
+          </div>
+        </div>
+
+        <!-- LNG VCE Vapor Cloud Explosion specialized calculator -->
+        <div class="glass p-5 md:p-6 rounded-2xl border border-slate-800 space-y-4">
+          <div>
+            <h3 class="text-base font-bold text-slate-100 flex items-center">
+              <i class="fas fa-wind text-orange-500 mr-2"></i>
+              港口 LNG 蒸氣雲爆炸 (VCE) 定量風險與爆風半徑估算器
+            </h3>
+            <p class="text-xs text-slate-400 mt-1">基於多能量法 (MEM) 物理概念，計算化學氣體洩漏引發的爆風過壓安全隔離邊界。</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="space-y-3">
+              <div>
+                <label class="block text-[10px] text-slate-300 font-bold mb-1">1. 洩漏或蒸氣雲總質量 (Mass, kg)：</label>
+                <input type="number" id="vce-mass" value="1000" min="1" max="1000000" class="w-full px-3 py-3 bg-slate-900 border border-slate-800 rounded text-xs text-slate-200 focus:outline-none focus:border-orange-500 font-mono min-h-[44px]">
+              </div>
+              <div class="text-[9px] text-slate-500 leading-relaxed">
+                輸入液化天然氣 (LNG) 洩漏後可能揮發擴散成雲的氣體公斤數。
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <div>
+                <label class="block text-[10px] text-slate-300 font-bold mb-1">2. 空間擁擠程度 (謝爾金效應阻礙度)：</label>
+                <select id="vce-density" class="w-full px-3 py-3 bg-slate-900 border border-slate-800 rounded text-xs text-slate-200 focus:outline-none focus:border-orange-500 min-h-[44px]">
+                  <option value="1.0">低擁擠區 (空曠槽區、開放式碼頭)</option>
+                  <option value="1.6">中度擁擠區 (貨櫃堆放區、設備走廊)</option>
+                  <option value="2.3">高度擁擠區 (密集管線區、封閉廠房室內)</option>
+                </select>
+              </div>
+              <div class="text-[9px] text-slate-500 leading-relaxed">
+                障礙物密度越高，火焰加速效應越明顯，爆震能量越大。
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <div>
+                <label class="block text-[10px] text-slate-300 font-bold mb-1">3. 燃料反應活性 (Reactivity)：</label>
+                <select id="vce-reactivity" class="w-full px-3 py-3 bg-slate-900 border border-slate-800 rounded text-xs text-slate-200 focus:outline-none focus:border-orange-500 min-h-[44px]">
+                  <option value="0.8">低活性 (甲烷 / LNG 主要成分)</option>
+                  <option value="1.2">中活性 (丙烷、一般液化石油氣)</option>
+                  <option value="1.8">高活性 (乙炔、氫氣化災)</option>
+                </select>
+              </div>
+              <div class="text-[9px] text-slate-500 leading-relaxed">
+                燃料的化學反應速度決定了爆震壓力的上升流速。
+              </div>
+            </div>
+          </div>
+
+          <div id="vce-result-container" class="mt-4 pt-3 border-t border-slate-800"></div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- JS Logic Script -->
+  <script src="app.js"></script>
+</body>
+</html>
