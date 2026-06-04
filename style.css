@@ -295,3 +295,22 @@ input[type="range"]::-webkit-slider-thumb:active {
     padding-bottom: 2rem;
   }
 }
+
+/* Flashcard 3D Card Flip effects */
+.perspective-1000 {
+  perspective: 1000px;
+}
+.transform-style-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.my-rotate-y-180 {
+  transform: rotateY(180deg);
+}
+#flashcard.flipped {
+  transform: rotateY(180deg);
+}
