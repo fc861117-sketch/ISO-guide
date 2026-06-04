@@ -1,0 +1,297 @@
+/* Custom CSS Variables and Styling for ISO Command Dashboard */
+/* Theme: Nordic Tactical Dark (Highly readable, mobile-optimized) */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  --bg-primary: #090d16;
+  --bg-secondary: #0f1524;
+  --bg-card: rgba(21, 29, 47, 0.85);
+  --border-color: rgba(71, 85, 105, 0.4);
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  
+  --accent-red: #ef4444;
+  --accent-red-glow: rgba(239, 68, 68, 0.4);
+  
+  --accent-orange: #f97316;
+  --accent-orange-glow: rgba(249, 115, 22, 0.4);
+  
+  --accent-yellow: #f59e0b;
+  --accent-yellow-glow: rgba(245, 158, 11, 0.4);
+  
+  --accent-green: #10b981;
+  --accent-green-glow: rgba(16, 185, 129, 0.4);
+  
+  --accent-blue: #3b82f6;
+  --accent-blue-glow: rgba(59, 130, 246, 0.4);
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.625;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(249, 115, 22, 0.04) 0%, transparent 40%),
+    linear-gradient(rgba(255, 255, 255, 0.003) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.003) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 50px 50px, 50px 50px;
+}
+
+code, pre, .font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Glassmorphism Cards */
+.glass {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+}
+
+.glass-hover:hover {
+  border-color: rgba(249, 115, 22, 0.5);
+  box-shadow: 0 12px 30px -5px rgba(249, 115, 22, 0.15);
+  transform: translateY(-2px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-orange);
+}
+
+/* Animations */
+@keyframes pulse-red {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5);
+    border-color: rgba(239, 68, 68, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 15px 5px rgba(239, 68, 68, 0.25);
+    border-color: rgba(239, 68, 68, 1);
+  }
+}
+.pulse-red-border {
+  animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-orange {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.5);
+    border-color: rgba(249, 115, 22, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 15px 5px rgba(249, 115, 22, 0.25);
+    border-color: rgba(249, 115, 22, 1);
+  }
+}
+.pulse-orange-border {
+  animation: pulse-orange 2s infinite;
+}
+
+@keyframes ticker {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+.ticker-wrap {
+  overflow: hidden;
+  background: rgba(9, 13, 22, 0.95);
+  border-bottom: 1px solid var(--border-color);
+  padding: 10px 0;
+  width: 100%;
+}
+
+.ticker-content {
+  display: flex;
+  white-space: nowrap;
+  animation: ticker 40s linear infinite;
+  padding-left: 100%;
+}
+.ticker-content:hover {
+  animation-play-state: paused;
+}
+
+.ticker-item {
+  display: inline-block;
+  padding: 0 2.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* Tooltips optimized for mobile touch (displays as helpful inline block on smaller viewports) */
+.tooltip {
+  position: relative;
+}
+@media (min-width: 769px) {
+  .tooltip:before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 12px;
+    background: #0f172a;
+    color: #fff;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    border-radius: 6px;
+    width: 250px;
+    white-space: normal;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    z-index: 50;
+  }
+  .tooltip:hover:before {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+/* Active Nav State */
+.nav-active {
+  background: linear-gradient(90deg, rgba(249, 115, 22, 0.15) 0%, transparent 100%);
+  border-left: 3px solid var(--accent-orange);
+  color: #fff !important;
+}
+
+/* Active Bottom Nav State */
+.bottom-nav-active {
+  color: var(--accent-orange) !important;
+}
+
+/* Chemical hazard diamond layout (NFPA 704) */
+.nfpa-diamond {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  transform: rotate(45deg);
+}
+
+.nfpa-quadrant {
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #000;
+}
+
+.nfpa-top {
+  top: 0;
+  left: 0;
+  background-color: #ef4444; /* Red - Flammability */
+  border-top-left-radius: 6px;
+}
+
+.nfpa-left {
+  top: 0;
+  right: 0;
+  background-color: #3b82f6; /* Blue - Health */
+  border-top-right-radius: 6px;
+}
+
+.nfpa-right {
+  bottom: 0;
+  left: 0;
+  background-color: #f59e0b; /* Yellow - Instability */
+  border-bottom-left-radius: 6px;
+}
+
+.nfpa-bottom {
+  bottom: 0;
+  right: 0;
+  background-color: #f8fafc; /* White - Special */
+  border-bottom-right-radius: 6px;
+}
+
+.nfpa-text {
+  transform: rotate(-45deg);
+}
+
+/* Custom Grid Heatmap Table (Scrollable on Mobile) */
+.matrix-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.matrix-cell {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  min-width: 44px;
+  min-height: 44px;
+}
+.matrix-cell:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
+  z-index: 10;
+}
+
+/* Custom Range Sliders Optimized for Mobile Touch targets */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  border-radius: 4px;
+  background: #1e293b;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent-orange);
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  transition: transform 0.1s;
+}
+input[type="range"]::-webkit-slider-thumb:active {
+  transform: scale(1.2);
+}
+
+/* Mobile responsive navigation & padding */
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 74px; /* Space for sticky bottom navigation */
+  }
+  .content-section {
+    padding-bottom: 2rem;
+  }
+}
